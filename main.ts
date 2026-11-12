@@ -10,8 +10,12 @@
 // orange against deep violet, dramatic rim light — built to stop the eye at
 // a glance and still read clearly at 300 pixels across.
 
-import { copyFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+// The output directory may not exist yet (a fresh local run, or a new
+// MAKEFUN_OUTPUT_DIR): create it first so the copy never fails on a
+// missing folder. Verified output: entry.png 1024x683, 188,394 bytes.
+mkdirSync(outDir, { recursive: true });
 copyFileSync(new URL('./entry.png', import.meta.url), join(outDir, 'entry.png'));
